@@ -88,7 +88,8 @@ a:active {
     font-size: 1.8em;
     border-left: solid 3px lightgrey;
     padding-left: 10px;
-
+    word-wrap: break-word;
+    line-height: 1.2;
 }
 
 @media only screen and (max-width: 800px) {
@@ -112,20 +113,75 @@ a:active {
     }
 }
 
-form label {
-    float: left;
+.control-wrapper {
+    display: flex;
+    flex-shrink: none;
+    align-items: flex-end;
+    justify-content: center;
 }
 
 form input {
+    padding: 1px;
+    margin: 8px;
     float: right;
     border-radius: 4px;
+    border: none;
+    font-size: 20px;
+    border-bottom: 2px dashed gray;
+    font-family: 'Indie Flower';
+}
+
+form input:focus {
+    outline: none;
+    border: none;
+    border-bottom: 2px solid gray;
+    font-family: 'Indie Flower';
+}
+
+button {
+    margin: 20px;
+    border-radius: 6px;
+    font-size: 1em;
+    padding: 10px;
     border: 2px dashed gray;
+    color: gray;
+}
+
+button:focus {
+    outline: none;
+}
+
+button:hover {
+    border: 2px solid gray;
+}
+
+button:active {
+    transform: translateY(0.5em);
 }
 
 form {
+    padding: 10px;
     display: flex;
     flex-direction: column;
-    width: 80%;
     font-family: 'Indie Flower';
-    font-size: 1.8em;
+    font-size: 1.2em;
+}
+
+.center {
+    text-align: center;
+}
+
+.link {
+    font-family: monospace;
+    overflow-x: scroll;
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid gray;
+}
+
+.result {
+    display: flex;
+    align-items: center;
+    font-family: 'Indie Flower';
+    width: 100%;
 }

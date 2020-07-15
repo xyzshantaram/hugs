@@ -16,7 +16,7 @@ function init() {
     App.UI.message = document.getElementById('message');
     for (let x of window.location.search.replace('?', '').split('&')) {
         let kvPair = x.split('=');
-        App.urlContents[kvPair[0]] = kvPair[1];
+        App.urlContents[kvPair[0]] = decodeURI(kvPair[1]);
     }
 
     if (Object.keys(App.urlContents).includes('sender')) {
@@ -34,7 +34,7 @@ function init() {
     }
 
     if (Object.keys(App.urlContents).includes('message')) {
-        App.UI.message.innerHTML = atob(App.urlContents['message']);
+        App.UI.message.innerHTML = atob(App.urlContents['message'].replaceAll('-', '='));
     }
     else {
         App.UI.message.style.display = 'none';
