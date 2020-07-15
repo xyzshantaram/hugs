@@ -1,0 +1,131 @@
+@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap');
+
+body {
+    box-sizing: border-box;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+html {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+* {
+    background: #fcf5f0;
+    color: #303030;
+}
+
+
+a, a:visited {
+    color: #007cdf;
+}
+
+a:hover {
+    color: #003bdf;
+}
+
+a:active {
+    color: #0000ff;
+}
+
+#legalese {
+    font-family: monospace;
+    position: fixed;
+    font-size: 1em;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    display: block;
+    text-align: center;
+    box-sizing: border-box;
+    padding-bottom: 2px;
+}
+
+#heading {
+    padding-top: 2%;
+    font-size: 3em;
+    font-family: 'Indie Flower';
+    width: 100%;
+}
+
+#recipient-name {
+    display: inline;
+}
+
+#sender-name {
+    font-weight: bold;
+}
+
+.text {
+    width: 100%;
+    font-style: italic;
+    font-size: 2.3em;
+    font-family: 'Indie Flower';
+}
+
+#canvas {
+    width: 75vh;
+    height: 60vh;
+    border: 1px solid red;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+#message-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.quote {
+    width: 80%;
+    font-size: 1.8em;
+    border-left: solid 3px lightgrey;
+    padding-left: 10px;
+
+}
+
+@media only screen and (max-width: 800px) {
+    body {
+        width: 95%;
+    }
+
+    #heading {
+        font-size: 2.3em;
+    }
+
+    #subheading {
+        font-size: 1.8em;
+    }
+}
+
+@media screen and (orientation:portrait) {
+    #canvas {
+        width: 75vw;
+        height: 60vw;
+    }
+}
+
+form label {
+    float: left;
+}
+
+form input {
+    float: right;
+    border-radius: 4px;
+    border: 2px dashed gray;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    font-family: 'Indie Flower';
+    font-size: 1.8em;
+}
