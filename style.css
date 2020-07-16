@@ -15,8 +15,8 @@ html {
 }
 
 * {
-    background: #fcf5f0;
-    color: #303030;
+        background: #fcf5f0;
+        color: #303030;
 }
 
 
@@ -68,7 +68,7 @@ a:active {
 }
 
 #canvas {
-    width: 75vh;
+    width: 60vh;
     height: 60vh;
     border: 1px solid red;
     margin-top: 15px;
@@ -109,13 +109,13 @@ a:active {
 @media screen and (orientation:portrait) {
     #canvas {
         width: 75vw;
-        height: 60vw;
+        height: 75vw;
     }
 }
 
 .control-wrapper {
     display: flex;
-    flex-shrink: none;
+    flex-shrink: 0;
     align-items: flex-end;
     justify-content: center;
 }
@@ -144,6 +144,7 @@ button {
     font-size: 1em;
     padding: 10px;
     border: 2px dashed gray;
+    font-family: monospace;
     color: gray;
 }
 
@@ -184,4 +185,27 @@ form {
     align-items: center;
     font-family: 'Indie Flower';
     width: 100%;
+}
+
+.share {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Indie Flower';
+    width: 100%;
+}
+
+.icon {
+    width: 40px;
+    height: 40px;
+    border: none;
+    margin: 3px;
+}
+
+.icon:hover {
+    border: none;
+}
+
+.icon:hover {
+    border: none;
 }
