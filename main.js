@@ -64,14 +64,13 @@ function init() {
     for (let x of window.location.search.replace('?', '').split('&')) {
         let kvPair = x.split('=');
         if (kvPair[0] === 'message') {
-            App.urlContents[kvPair[0]] = atob(decodeURIComponent(kvPair[1]).replaceAll('-', '='));
+            App.urlContents[kvPair[0]] = decodeURIComponent(atob(kvPair[1].replace('-', '=')));
         }
         else {
             App.urlContents[kvPair[0]] = decodeURIComponent(kvPair[1]).replaceAll('+', ' ');
         }
 
         App.urlContents[kvPair[0]] = App.urlContents[kvPair[0]].replaceAll('>', '&gt;').replaceAll('<', '&lt;');
-        console.log(App.urlContents[kvPair[0]])
     }
 
     App.UI.senderName.innerHTML = 'Someone';
