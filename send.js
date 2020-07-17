@@ -28,6 +28,7 @@ function init() {
         result.classList.add('result');
 
         let resInfo = document.createElement('div');
+        resInfo.style.textAlign = 'center';
         resInfo.append('Your generated link: ');
         result.appendChild(resInfo);
 
@@ -45,8 +46,20 @@ function init() {
             linkField.select();
             linkField.setSelectionRange(0, linkField.value.length);
             document.execCommand('copy');
-        })
-        result.appendChild(copyBtn);
+        });
+
+        let viewBtn = document.createElement('button');
+        viewBtn.innerHTML = "View";
+        viewBtn.onclick = function() {
+            window.location.replace(generateLink());
+        }
+        let actions = document.createElement('div');
+        actions.appendChild(copyBtn);
+        actions.appendChild(viewBtn);
+        
+        actions.classList.add('actions');
+
+        result.appendChild(actions);
         document.body.appendChild(result);
 
         let shareDiv = document.createElement('div');
@@ -70,10 +83,11 @@ function init() {
         emailBtn.onclick = function() {
             window.location.replace(`mailto:?body=${encodeURIComponent(generateLink())}`)
         }
+        document.body.appendChild(shareDiv);
+
         let legalese = document.createElement('div');
         legalese.id = 'legalese';
         legalese.innerHTML = 'WhatsApp and e-mail icons by Freepik';
-        document.body.appendChild(shareDiv);
         document.body.appendChild(legalese);
     })
 
