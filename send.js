@@ -110,7 +110,7 @@ function init() {
 function generateLink() {
     let senderName = encodeURIComponent(document.getElementById('sender-input').value.replaceAll('>', '&gt;').replaceAll('<', '&lt;'));
     let recpName = encodeURIComponent(document.getElementById('recipient-input').value);
-    let message = (document.getElementById('message').value);
+    let message = encodeURIComponent(document.getElementById('message').value);
 
     for (let str of [senderName, recpName, message]) {
         str.replaceAll('>', '&gt;').replaceAll('<', '&lt;');
