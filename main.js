@@ -67,7 +67,7 @@ function init() {
             App.urlContents[kvPair[0]] = atob(decodeURI(kvPair[1]).replaceAll('-', '='));
         }
         else {
-            App.urlContents[kvPair[0]] = decodeURI(kvPair[1]);
+            App.urlContents[kvPair[0]] = decodeURI(kvPair[1]).replaceAll('+', ' ');
         }
 
         App.urlContents[kvPair[0]] = App.urlContents[kvPair[0]].replaceAll('>', '&gt;').replaceAll('<', '&lt;');
