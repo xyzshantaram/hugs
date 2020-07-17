@@ -6,6 +6,13 @@ let App = {
     assets: {}
 }
 
+let frameNo = 0;
+let frameCount = 0;
+
+const PER_FRAME_DURATION = 20;
+const NUM_FRAMES = 10;
+
+
 if (!window.location.search) {
     window.location.replace("send.html");
 }
@@ -101,13 +108,6 @@ function init() {
         frameNo = 0;
     }
 }
-
-let frameNo = 0;
-let frameCount = 0;
-
-const PER_FRAME_DURATION = 30;
-const NUM_FRAMES = 10;
-
 
 function draw() {
     frameCount++;
