@@ -64,7 +64,7 @@ function init() {
     for (let x of window.location.search.replace('?', '').split('&')) {
         let kvPair = x.split('=');
         if (kvPair[0] === 'message') {
-            App.urlContents[kvPair[0]] = decodeURIComponent(atob(kvPair[1].replace('-', '=')));
+            App.urlContents[kvPair[0]] = decodeURIComponent(atob(kvPair[1].replaceAll('-', '=')));
         }
         else {
             App.urlContents[kvPair[0]] = decodeURIComponent(kvPair[1]).replaceAll('+', ' ');
