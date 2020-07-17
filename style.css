@@ -34,7 +34,7 @@ a:active {
 
 #legalese {
     font-family: monospace;
-    position: fixed;
+    position: relative;
     font-size: 1em;
     width: 100%;
     bottom: 0;
