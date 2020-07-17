@@ -70,7 +70,6 @@ a:active {
 #canvas {
     width: 60vh;
     height: 60vh;
-    border: 1px solid red;
     margin-top: 15px;
     margin-bottom: 15px;
 }
