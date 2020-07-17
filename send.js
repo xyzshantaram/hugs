@@ -17,7 +17,7 @@ function init() {
                 y.remove();
             }
         }
-        existing = document.getElementsByClassName('shareDiv');
+        existing = document.getElementsByClassName('share');
         if (existing) {
             for (let y of existing) {
                 y.remove();
@@ -70,8 +70,11 @@ function init() {
         emailBtn.onclick = function() {
             window.location.replace(`mailto:?body=${encodeURIComponent(generateLink())}`)
         }
-
+        let legalese = document.createElement('div');
+        legalese.id = 'legalese';
+        legalese.innerHTML = 'WhatsApp and e-mail icons by Freepik';
         document.body.appendChild(shareDiv);
+        document.body.appendChild(legalese);
     })
 
     document.getElementById('message').addEventListener('input', function (e) {
@@ -91,10 +94,13 @@ function init() {
 }
 
 function generateLink() {
-
-    let senderName = encodeURI(document.getElementById('sender-input').value);
-    let recpName = encodeURI(document.getElementById('recipient-input').value);
+    let senderName = encodeURIComponent(document.getElementById('sender-input').value.replaceAll('>', '&gt;').replaceAll('<', '&lt;'));
+    let recpName = encodeURIComponent(document.getElementById('recipient-input').value);
     let message = (document.getElementById('message').value);
+
+    for (let str of [senderName, recpName, message]) {
+        str.replaceAll('>', '&gt;').replaceAll('<', '&lt;');
+    }
 
     let str = window.location.href.replace('send.html', 'index.html')
     let b64edMessage = btoa(message);
