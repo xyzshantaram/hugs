@@ -1,9 +1,9 @@
 function init() {
 
     if (!String.prototype.replaceAll) {
-        String.prototype.replaceAll = function(arg1, arg2) {
+        String.prototype.replaceAll = function (arg1, arg2) {
             let toRet = this;
-            while(toRet.includes(arg1)) {
+            while (toRet.includes(arg1)) {
                 toRet = toRet.replace(arg1, arg2);
             }
             return toRet;
@@ -11,19 +11,14 @@ function init() {
     }
     document.getElementById('generate-btn').addEventListener('click', function (e) {
         e.preventDefault();
-        let existing = document.getElementsByClassName('result');
-        if (existing) {
-            for (let y of existing) {
-                y.remove();
+        for (let cls of ['freepik', 'result', 'share']) {
+            let existing = document.getElementsByClassName(cls);
+            if (existing) {
+                for (let y of existing) {
+                    y.remove();
+                }
             }
         }
-        existing = document.getElementsByClassName('share');
-        if (existing) {
-            for (let y of existing) {
-                y.remove();
-            }
-        }
-
         let result = document.createElement('div');
         result.classList.add('result');
 
@@ -50,13 +45,13 @@ function init() {
 
         let viewBtn = document.createElement('button');
         viewBtn.innerHTML = "View";
-        viewBtn.onclick = function() {
+        viewBtn.onclick = function () {
             window.location.replace(generateLink());
         }
         let actions = document.createElement('div');
         actions.appendChild(copyBtn);
         actions.appendChild(viewBtn);
-        
+
         actions.classList.add('actions');
 
         result.appendChild(actions);
@@ -71,7 +66,7 @@ function init() {
         waBtn.style.backgroundImage = 'url(\'img/whatsapp.svg\')';
         shareDiv.appendChild(waBtn);
 
-        waBtn.onclick = function() {
+        waBtn.onclick = function () {
             window.location.replace(`https://api.whatsapp.com/send?text=${encodeURIComponent(generateLink())}`)
         }
 
@@ -80,13 +75,14 @@ function init() {
         emailBtn.style.backgroundImage = 'url(\'img/arroba.svg\')';
         shareDiv.appendChild(emailBtn);
 
-        emailBtn.onclick = function() {
+        emailBtn.onclick = function () {
             window.location.replace(`mailto:?body=${encodeURIComponent(generateLink())}`)
         }
         document.body.appendChild(shareDiv);
 
         let legalese = document.createElement('div');
         legalese.id = 'legalese';
+        legalese.classList.add('freepik');
         legalese.innerHTML = 'WhatsApp and e-mail icons by Freepik';
         document.body.appendChild(legalese);
     })
