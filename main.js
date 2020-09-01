@@ -21,6 +21,8 @@ const virtualCanvasSize = 800;
 
 function init() {
     App.assets = new AssetManager(function () {
+        document.getElementById("mask").style.display = 'none';
+        console.log("page loaded.");
         window.requestAnimationFrame(draw);
     });
 
@@ -96,7 +98,6 @@ function init() {
         App.ctx.setTransform(1, 0, 0, 1, 0, 0);
         App.canvas.width = App.canvas.clientWidth;
         App.canvas.height = App.canvas.clientHeight;
-        console.log('scaling up to ', App.canvas.width / virtualCanvasSize, App.canvas.height / virtualCanvasSize)
         App.ctx.scale(
             App.canvas.width / virtualCanvasSize,
             App.canvas.height / virtualCanvasSize
