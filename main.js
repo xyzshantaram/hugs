@@ -20,6 +20,31 @@ if (!window.location.search) {
 const virtualCanvasSize = 800;
 
 function init() {
+    if (!('createImageBitmap' in window)) {
+        window.createImageBitmap = async function (data) {
+            return new Promise((resolve, reject) => {
+                let dataURL;
+                if (data instanceof Blob) {
+                    dataURL = URL.createObjectURL(data);
+                } else if (data instanceof ImageData) {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    canvas.width = data.width;
+                    canvas.height = data.height;
+                    ctx.putImageData(data, 0, 0);
+                    dataURL = canvas.toDataURL();
+                } else {
+                    throw new Error('createImageBitmap does not handle the provided image source type');
+                }
+                const img = document.createElement('img');
+                img.addEventListener('load', function () {
+                    resolve(this);
+                });
+                img.src = dataURL;
+            });
+        };
+    }
+
     App.assets = new AssetManager(function () {
         document.getElementById("mask").style.display = 'none';
         console.log("page loaded.");
@@ -35,6 +60,7 @@ function init() {
     App.assets.queueItems(fileQueue);
 
     App.assets.loadAll();
+
     if (!String.prototype.replaceAll) {
         String.prototype.replaceAll = function (arg1, arg2) {
             let toRet = this;
@@ -44,6 +70,7 @@ function init() {
             return toRet;
         }
     }
+    
     App.canvas = document.getElementById('canvas');
 
 
