@@ -63,16 +63,20 @@ function init() {
     App.UI.message = document.getElementById('message');
     App.UI.messageWrapper = document.getElementById('message-wrapper');
 
+    let flag = window.location.search.includes("new=true"); /* if the url was generated with the new version
+                            of the app, then we know to decode the sender and recipient strings as base64 */
+
     for (let x of window.location.search.replace('?', '').split('&')) {
         let kvPair = x.split('=');
-        if (kvPair[0] === 'message') {
+        if (kvPair[0] === 'message' || flag) {
             App.urlContents[kvPair[0]] = decodeURIComponent(atob(kvPair[1].replaceAll('-', '=')));
         }
         else {
             App.urlContents[kvPair[0]] = decodeURIComponent(kvPair[1]).replaceAll('+', ' ');
         }
 
-        App.urlContents[kvPair[0]] = App.urlContents[kvPair[0]].replaceAll('>', '&gt;').replaceAll('<', '&lt;');
+        App.urlContents[kvPair[0]] = App.urlContents[kvPair[0]].replaceAll('>', '&gt;').replaceAll('<', '&lt;'); /* naive
+                                                                                  attempt at preventing HTML injection */
     }
 
     App.UI.senderName.innerHTML = 'Someone';

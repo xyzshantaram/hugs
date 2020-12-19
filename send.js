@@ -1,5 +1,14 @@
 function init() {
 
+    for (let id of ['sender-input', 'recipient-input', 'message']) {
+        document.getElementById(id).addEventListener('input', function (e) {
+            if (this.value.includes('=') || this.value.includes('&')) {
+                this.value = this.value.replaceAll('&', '').replaceAll('=', '');
+                alert('Please don\'t use = or & in your inputs.');
+            }
+        })
+    }
+
     if (!String.prototype.replaceAll) {
         String.prototype.replaceAll = function (arg1, arg2) {
             let toRet = this;
@@ -19,8 +28,11 @@ function init() {
                 }
             }
         }
+
         let result = document.createElement('div');
         result.classList.add('result');
+
+        let url = generateLink();
 
         let resInfo = document.createElement('div');
         resInfo.style.textAlign = 'center';
@@ -29,7 +41,7 @@ function init() {
 
         let link = document.createElement('input');
         link.classList.add('link');
-        link.value = generateLink();
+        link.value = url;
         result.appendChild(link);
 
 
@@ -46,7 +58,7 @@ function init() {
         let viewBtn = document.createElement('button');
         viewBtn.innerHTML = "View";
         viewBtn.onclick = function () {
-            window.location.replace(generateLink());
+            window.location.replace(url);
         }
         let actions = document.createElement('div');
         actions.appendChild(copyBtn);
@@ -67,7 +79,7 @@ function init() {
         shareDiv.appendChild(waBtn);
 
         waBtn.onclick = function () {
-            window.location.replace(`https://api.whatsapp.com/send?text=${encodeURIComponent(generateLink())}`)
+            window.location.replace(`https://api.whatsapp.com/send?text=${encodeURIComponent(url)}`)
         }
 
         let emailBtn = document.createElement('button');
@@ -76,7 +88,7 @@ function init() {
         shareDiv.appendChild(emailBtn);
 
         emailBtn.onclick = function () {
-            window.location.replace(`mailto:?body=${encodeURIComponent(generateLink())}`)
+            window.location.replace(`mailto:?body=${encodeURIComponent(url)}`)
         }
         document.body.appendChild(shareDiv);
 
@@ -92,15 +104,6 @@ function init() {
             this.value = this.value.substring(0, 140);
         }
     })
-
-    for (let id of ['sender-input', 'recipient-input', 'message']) {
-        document.getElementById(id).addEventListener('input', function (e) {
-            if (this.value.includes('=') || this.value.includes('&')) {
-                this.value = this.value.replaceAll('&', '').replaceAll('=', '');
-                alert('Please don\'t use = or & in your inputs.');
-            }
-        })
-    }
 }
 
 function generateLink() {
@@ -113,9 +116,13 @@ function generateLink() {
     }
 
     let str = window.location.href.replace('send.html', 'index.html')
-    let b64edMessage = btoa(message);
-    b64edMessage = b64edMessage.replaceAll('=', '-');
-    str += `?sender=${senderName}&recipient=${recpName}&message=${b64edMessage}`;
+    let b64ed = { // base 64'ed
+        msg: btoa(message),
+        sName: btoa(senderName),
+        rName: btoa(recpName)
+    }
+    b64ed.msg = b64ed.msg.replaceAll('=', '-');
+    str += `?new=true&sender=${b64ed.sName}&recipient=${b64ed.rName}&message=${b64ed.msg}`;
     return str;
 }
 
