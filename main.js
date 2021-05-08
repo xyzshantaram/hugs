@@ -100,7 +100,7 @@ function init() {
         let kvPair = x.split('=');
         console.log(kvPair);
         if (kvPair[0] === 'message' || flag) {
-            App.urlContents[kvPair[0]] = atob(decodeURIComponent(kvPair[1]));
+            App.urlContents[kvPair[0]] = Base64.decode(decodeURIComponent(kvPair[1]));
         } else {
             App.urlContents[kvPair[0]] = decodeURIComponent(kvPair[1]).replaceAll('+', ' ');
         }

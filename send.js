@@ -117,9 +117,9 @@ function generateLink() {
 
     let str = window.location.href.replace('send.html', 'index.html')
     let b64ed = { // base 64'ed
-        msg: encodeURIComponent(btoa(message)),
-        sName: encodeURIComponent(btoa(senderName)),
-        rName: encodeURIComponent(btoa(recpName))
+        msg: encodeURIComponent(Base64.encode(message)),
+        sName: encodeURIComponent(Base64.encode(senderName)),
+        rName: encodeURIComponent(Base64.encode(recpName))
     }
     str += `?new=true&sender=${b64ed.sName}&recipient=${b64ed.rName}&message=${b64ed.msg}`;
     return str;
