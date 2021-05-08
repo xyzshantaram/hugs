@@ -1,7 +1,7 @@
 function init() {
 
     for (let id of ['sender-input', 'recipient-input', 'message']) {
-        document.getElementById(id).addEventListener('input', function (e) {
+        document.getElementById(id).addEventListener('input', function(e) {
             if (this.value.includes('=') || this.value.includes('&')) {
                 this.value = this.value.replaceAll('&', '').replaceAll('=', '');
                 alert('Please don\'t use = or & in your inputs.');
@@ -10,7 +10,7 @@ function init() {
     }
 
     if (!String.prototype.replaceAll) {
-        String.prototype.replaceAll = function (arg1, arg2) {
+        String.prototype.replaceAll = function(arg1, arg2) {
             let toRet = this;
             while (toRet.includes(arg1)) {
                 toRet = toRet.replace(arg1, arg2);
@@ -18,7 +18,7 @@ function init() {
             return toRet;
         }
     }
-    document.getElementById('generate-btn').addEventListener('click', function (e) {
+    document.getElementById('generate-btn').addEventListener('click', function(e) {
         e.preventDefault();
         for (let cls of ['freepik', 'result', 'share']) {
             let existing = document.getElementsByClassName(cls);
@@ -47,7 +47,7 @@ function init() {
 
         let copyBtn = document.createElement('button');
         copyBtn.innerHTML = "Copy";
-        copyBtn.addEventListener('click', function () {
+        copyBtn.addEventListener('click', function() {
             let linkField = document.querySelector('.link');
             linkField.click();
             linkField.select();
@@ -57,7 +57,7 @@ function init() {
 
         let viewBtn = document.createElement('button');
         viewBtn.innerHTML = "View";
-        viewBtn.onclick = function () {
+        viewBtn.onclick = function() {
             window.location.replace(url);
         }
         let actions = document.createElement('div');
@@ -78,7 +78,7 @@ function init() {
         waBtn.style.backgroundImage = 'url(\'img/whatsapp.svg\')';
         shareDiv.appendChild(waBtn);
 
-        waBtn.onclick = function () {
+        waBtn.onclick = function() {
             window.location.replace(`https://api.whatsapp.com/send?text=${encodeURIComponent(url)}`)
         }
 
@@ -87,7 +87,7 @@ function init() {
         emailBtn.style.backgroundImage = 'url(\'img/arroba.svg\')';
         shareDiv.appendChild(emailBtn);
 
-        emailBtn.onclick = function () {
+        emailBtn.onclick = function() {
             window.location.replace(`mailto:?body=${encodeURIComponent(url)}`)
         }
         document.body.appendChild(shareDiv);
@@ -99,7 +99,7 @@ function init() {
         document.body.appendChild(legalese);
     })
 
-    document.getElementById('message').addEventListener('input', function (e) {
+    document.getElementById('message').addEventListener('input', function(e) {
         if (this.value.length > 140) {
             this.value = this.value.substring(0, 140);
         }
@@ -107,9 +107,9 @@ function init() {
 }
 
 function generateLink() {
-    let senderName = encodeURIComponent(document.getElementById('sender-input').value.replaceAll('>', '&gt;').replaceAll('<', '&lt;'));
-    let recpName = encodeURIComponent(document.getElementById('recipient-input').value);
-    let message = encodeURIComponent(document.getElementById('message').value);
+    let senderName = document.getElementById('sender-input').value.replaceAll('>', '&gt;').replaceAll('<', '&lt;');
+    let recpName = document.getElementById('recipient-input').value;
+    let message = document.getElementById('message').value;
 
     for (let str of [senderName, recpName, message]) {
         str.replaceAll('>', '&gt;').replaceAll('<', '&lt;');
@@ -117,11 +117,10 @@ function generateLink() {
 
     let str = window.location.href.replace('send.html', 'index.html')
     let b64ed = { // base 64'ed
-        msg: btoa(message),
-        sName: btoa(senderName),
-        rName: btoa(recpName)
+        msg: encodeURIComponent(btoa(message)),
+        sName: encodeURIComponent(btoa(senderName)),
+        rName: encodeURIComponent(btoa(recpName))
     }
-    b64ed.msg = b64ed.msg.replaceAll('=', '-');
     str += `?new=true&sender=${b64ed.sName}&recipient=${b64ed.rName}&message=${b64ed.msg}`;
     return str;
 }
