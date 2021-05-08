@@ -15,12 +15,13 @@ html {
 }
 
 * {
-        background: #fcf5f0;
-        color: #303030;
+    background: #fcf5f0;
+    color: #303030;
 }
 
 
-a, a:visited {
+a,
+a:visited {
     color: #007cdf;
 }
 
@@ -188,30 +189,6 @@ form {
     border: none;
 }
 
-@media only screen and (max-width: 800px) {
-    body {
-        width: 95%;
-    }
-
-    #heading {
-        font-size: 2.3em;
-    }
-
-    #subheading {
-        font-size: 1.8em;
-    }
-    .result {
-        flex-direction: column;
-    }
-}
-
-@media screen and (orientation:portrait) {
-    #canvas {
-        width: 75vw;
-        height: 75vw;
-    }
-}
-
 .actions {
     display: flex;
 }
@@ -238,4 +215,37 @@ form {
 #mask-text {
     flex-grow: 0;
     flex-shrink: 0;
+}
+
+#message-prologue {
+    display: none;
+}
+
+#message-wrapper {
+    display: none;
+}
+
+@media only screen and (max-width: 800px) {
+    body {
+        width: 95%;
+    }
+
+    #heading {
+        font-size: 2.3em;
+    }
+
+    #subheading {
+        font-size: 1.8em;
+    }
+
+    .result {
+        flex-direction: column;
+    }
+}
+
+@media screen and (orientation:portrait) {
+    #canvas {
+        width: 75vw;
+        height: 75vw;
+    }
 }

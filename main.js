@@ -21,7 +21,7 @@ const virtualCanvasSize = 800;
 
 function init() {
     if (!('createImageBitmap' in window)) {
-        window.createImageBitmap = async function (data) {
+        window.createImageBitmap = async function(data) {
             return new Promise((resolve, reject) => {
                 let dataURL;
                 if (data instanceof Blob) {
@@ -37,7 +37,7 @@ function init() {
                     throw new Error('createImageBitmap does not handle the provided image source type');
                 }
                 const img = document.createElement('img');
-                img.addEventListener('load', function () {
+                img.addEventListener('load', function() {
                     resolve(this);
                 });
                 img.src = dataURL;
@@ -45,7 +45,7 @@ function init() {
         };
     }
 
-    App.assets = new AssetManager(function () {
+    App.assets = new AssetManager(function() {
         document.getElementById("mask").style.display = 'none';
         console.log("page loaded.");
         window.requestAnimationFrame(draw);
@@ -62,7 +62,7 @@ function init() {
     App.assets.loadAll();
 
     if (!String.prototype.replaceAll) {
-        String.prototype.replaceAll = function (arg1, arg2) {
+        String.prototype.replaceAll = function(arg1, arg2) {
             let toRet = this;
             while (toRet.includes(arg1)) {
                 toRet = toRet.replace(arg1, arg2);
@@ -70,7 +70,7 @@ function init() {
             return toRet;
         }
     }
-    
+
     App.canvas = document.getElementById('canvas');
 
 
@@ -89,26 +89,28 @@ function init() {
     App.UI.recipientName = document.getElementById('recipient-name');
     App.UI.message = document.getElementById('message');
     App.UI.messageWrapper = document.getElementById('message-wrapper');
+    App.UI.messagePrologue = document.getElementById('message-prologue');
 
-    let flag = window.location.search.includes("new=true"); /* if the url was generated with the new version
-                            of the app, then we know to decode the sender and recipient strings as base64 */
+    // todo: replace this with a version number string
+    let flag = window.location.search.includes("new=true");
+    /* if the url was generated with the new version
+    of the app, then we know to decode the sender and recipient strings as base64 */
 
     for (let x of window.location.search.replace('?', '').split('&')) {
         let kvPair = x.split('=');
         if (kvPair[0] === 'message' || flag) {
             App.urlContents[kvPair[0]] = decodeURIComponent(atob(kvPair[1].replaceAll('-', '=')));
-        }
-        else {
+        } else {
             App.urlContents[kvPair[0]] = decodeURIComponent(kvPair[1]).replaceAll('+', ' ');
         }
 
-        App.urlContents[kvPair[0]] = App.urlContents[kvPair[0]].replaceAll('>', '&gt;').replaceAll('<', '&lt;'); /* naive
-                                                                                  attempt at preventing HTML injection */
+        App.urlContents[kvPair[0]] = App.urlContents[kvPair[0]].replaceAll('>', '&gt;').replaceAll('<', '&lt;');
+        /* naive
+                                                                                         attempt at preventing HTML injection */
     }
 
     App.UI.senderName.innerHTML = 'Someone';
     App.UI.recipientName.innerHTML = 'person';
-    App.UI.messageWrapper.style.display = 'none';
 
     if (Object.keys(App.urlContents).includes('sender')) {
         if (App.urlContents.sender.trim() !== '')
@@ -122,10 +124,11 @@ function init() {
         if (App.urlContents.message.trim() !== '') {
             App.UI.message.innerHTML = App.urlContents['message'];
             App.UI.messageWrapper.style.display = 'flex';
+            App.UI.messagePrologue.style.display = 'block';
         }
     }
 
-    window.addEventListener("resize", function () {
+    window.addEventListener("resize", function() {
         App.ctx.setTransform(1, 0, 0, 1, 0, 0);
         App.canvas.width = App.canvas.clientWidth;
         App.canvas.height = App.canvas.clientHeight;
