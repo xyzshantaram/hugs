@@ -2,7 +2,6 @@ let App = {
     UI: {},
     canvas: {},
     ctx: {},
-    urlContents: {},
     assets: {}
 }
 
@@ -18,6 +17,10 @@ if (!window.location.search) {
 }
 
 const virtualCanvasSize = 800;
+
+function decodeAndClean(str) {
+    return Base64.decode(str).replaceAll('>', '&gt;').replaceAll('<', '&lt;');
+}
 
 function init() {
     if (!('createImageBitmap' in window)) {
@@ -96,37 +99,45 @@ function init() {
     /* if the url was generated with the new version
     of the app, then we know to decode the sender and recipient strings as base64 */
 
-    for (let x of window.location.search.replace('?', '').split('&')) {
-        let kvPair = x.split('=');
-        console.log(kvPair);
-        if (kvPair[0] === 'message' || flag) {
-            App.urlContents[kvPair[0]] = Base64.decode(decodeURIComponent(kvPair[1]));
-        } else {
-            App.urlContents[kvPair[0]] = decodeURIComponent(kvPair[1]).replaceAll('+', ' ');
-        }
+    let string = window.location.search.replace('?', '');
+    let params = new URLSearchParams(string);
 
-        App.urlContents[kvPair[0]] = App.urlContents[kvPair[0]].replaceAll('>', '&gt;').replaceAll('<', '&lt;');
-        /* naive
-                                                                                         attempt at preventing HTML injection */
+    let sender = params.get("sender");
+    let recipient = params.get('recipient');
+    let message = params.get('message');
+
+    if (sender && flag) {
+        sender = decodeAndClean(sender);
+    } else if (sender && !flag) {
+        sender = sender.replaceAll('>', '&gt;').replaceAll('<', '&lt;');
+    } else {
+        sender = 'Someone';
     }
 
-    App.UI.senderName.innerHTML = 'Someone';
-    App.UI.recipientName.innerHTML = 'person';
+    sender = decodeURIComponent(sender); // for backwards compatibility ;_;
 
-    if (Object.keys(App.urlContents).includes('sender')) {
-        if (App.urlContents.sender.trim() !== '')
-            App.UI.senderName.innerHTML = App.urlContents['sender'];
+    App.UI.senderName.innerHTML = sender;
+
+    if (recipient && flag) {
+        recipient = decodeAndClean(recipient);
+    } else if (recipient && !flag) {
+        recipient = recipient.replaceAll('>', '&gt;').replaceAll('<', '&lt;');
+    } else {
+        recipient = 'person';
     }
-    if (Object.keys(App.urlContents).includes('recipient')) {
-        if (App.urlContents.sender.trim() !== '')
-            App.UI.recipientName.innerHTML = App.urlContents['recipient'];
-    }
-    if (Object.keys(App.urlContents).includes('message')) {
-        if (App.urlContents.message.trim() !== '') {
-            App.UI.message.innerHTML = App.urlContents['message'];
-            App.UI.messageWrapper.style.display = 'flex';
-            App.UI.messagePrologue.style.display = 'block';
-        }
+
+    recipient = decodeURIComponent(recipient); // for backwards compatibility ;_;
+
+    App.UI.recipientName.innerHTML = recipient;
+
+
+    if (message) {
+        message = decodeAndClean(message);
+        message = decodeURIComponent(message); // for backwards compatibility ;_;
+
+        App.UI.message.innerHTML = message;
+        App.UI.messageWrapper.style.display = 'flex';
+        App.UI.messagePrologue.style.display = 'block';
     }
 
     window.addEventListener("resize", function() {

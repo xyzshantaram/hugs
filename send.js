@@ -11,7 +11,7 @@ function init() {
 
     if (!String.prototype.replaceAll) {
         String.prototype.replaceAll = function(arg1, arg2) {
-            let toRet = this;
+            let toRet = this.slice();
             while (toRet.includes(arg1)) {
                 toRet = toRet.replace(arg1, arg2);
             }
@@ -107,21 +107,26 @@ function init() {
 }
 
 function generateLink() {
-    let senderName = document.getElementById('sender-input').value.replaceAll('>', '&gt;').replaceAll('<', '&lt;');
-    let recpName = document.getElementById('recipient-input').value;
-    let message = document.getElementById('message').value;
 
-    for (let str of [senderName, recpName, message]) {
-        str.replaceAll('>', '&gt;').replaceAll('<', '&lt;');
+    let raw = {
+        sender: document.getElementById('sender-input').value,
+        recipient: document.getElementById('recipient-input').value,
+        message: document.getElementById('message').value
     }
 
-    let str = window.location.href.replace('send.html', 'index.html')
-    let b64ed = { // base 64'ed
-        msg: encodeURIComponent(Base64.encode(message)),
-        sName: encodeURIComponent(Base64.encode(senderName)),
-        rName: encodeURIComponent(Base64.encode(recpName))
+    cleaned = {}
+    encoded = {}
+    let params = new URLSearchParams();
+    params.set("new", "true");
+
+    for (let key of Object.keys(raw)) {
+        cleaned[key] = raw[key].replaceAll('>', '&gt;').replaceAll('<', '&lt;');
+        encoded[key] = Base64.encode(cleaned[key]);
+        params.set(key, encoded[key]);
     }
-    str += `?new=true&sender=${b64ed.sName}&recipient=${b64ed.rName}&message=${b64ed.msg}`;
+
+    let str = window.location.href.replace('send.html', 'index.html');
+    str += `?${params.toString()}`;
     return str;
 }
 
