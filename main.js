@@ -158,7 +158,12 @@ function init() {
 function draw() {
     frameCount++;
     App.ctx.clearRect(0, 0, App.canvas.width, App.canvas.height);
-    App.ctx.drawImage(App.assets.getAsset(`hug-0${frameNo}.png`), 0, 0);
+    try {
+        App.ctx.drawImage(App.assets.getAsset(`hug-0${frameNo}.png`), 0, 0);
+    }
+    catch (e) {
+        console.error("Exception in draw():", e);
+    }
     if (frameCount % PER_FRAME_DURATION === 0) {
         frameNo++;
     }
